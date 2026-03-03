@@ -4,12 +4,22 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>サンスウノート</title>
+  
+  <link rel="icon" href="favicon.png?v=1" type="image/png">
+  <link rel="apple-touch-icon" href="https://drive.google.com/thumbnail?sz=w256&id=1xfiZxxMBWfloB3KNScV44n63JABfD0U">
+  
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
       theme: {
         extend: {
-          colors: { terracotta: '#E07A5F', sage: '#81B29A', bluegrey: '#3D405B', cream: '#F4F1DE', mustard: '#F2CC8F' },
+          colors: {
+            terracotta: '#E07A5F',
+            sage: '#81B29A',
+            bluegrey: '#3D405B',
+            cream: '#F4F1DE',
+            mustard: '#F2CC8F',
+          },
           fontFamily: {
             rounded: ['"M PLUS Rounded 1c"', 'sans-serif'],
             kyokasho: ['"UD Digi Kyokasho N-B"', '"UD デジタル 教科書体 N-B"', '"Klee One"', 'serif'],
@@ -21,6 +31,9 @@
   <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
   <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Klee+One:wght@600&family=M+PLUS+Rounded+1c:wght@500;700&display=swap" rel="stylesheet">
   
   <style>
@@ -47,6 +60,7 @@
 </head>
 <body>
   <div id="root"></div>
+
   <script type="text/babel">
     const { useState, useEffect, useRef } = React;
 
@@ -59,7 +73,10 @@
       let attempts = 0;
       while (qList.length < maxCount && attempts < maxAttempts) {
         const q = createFn();
-        if (!seen.has(q.q)) { seen.add(q.q); qList.push(q); }
+        if (!seen.has(q.q)) {
+          seen.add(q.q);
+          qList.push(q);
+        }
         attempts++;
       }
       return qList;
@@ -209,12 +226,35 @@
 
     const SymmetryFigure = ({ data }) => {
       if (!data) return null;
-      if (data.type === 'line') return <svg viewBox="0 0 100 100" className="w-auto h-28 sm:h-36 mb-2 drop-shadow-md shrink-0 bg-white rounded-md border border-gray-200"><polygon points="50,15 85,50 50,85 15,50" fill="rgba(129, 178, 154, 0.2)" stroke="#3D405B" strokeWidth="2" strokeLinejoin="round" /><line x1="50" y1="10" x2="50" y2="90" stroke="#ef4444" strokeWidth="2" strokeDasharray="4,4" /><circle cx="25" cy="50" r="3" fill="#E07A5F" /><circle cx="75" cy="50" r="3" fill="#E07A5F" /></svg>;
-      if (data.type === 'point') return <svg viewBox="0 0 100 100" className="w-auto h-28 sm:h-36 mb-2 drop-shadow-md shrink-0 bg-white rounded-md border border-gray-200"><polygon points="30,20 90,20 70,80 10,80" fill="rgba(129, 178, 154, 0.2)" stroke="#3D405B" strokeWidth="2" strokeLinejoin="round" /><circle cx="50" cy="50" r="3.5" fill="#ef4444" /></svg>;
+      if (data.type === 'line') {
+        return (
+          <svg viewBox="0 0 100 100" className="w-auto h-28 sm:h-36 mb-2 drop-shadow-md shrink-0 bg-white rounded-md border border-gray-200">
+            <polygon points="50,15 85,50 50,85 15,50" fill="rgba(129, 178, 154, 0.2)" stroke="#3D405B" strokeWidth="2" strokeLinejoin="round" />
+            <line x1="50" y1="10" x2="50" y2="90" stroke="#ef4444" strokeWidth="2" strokeDasharray="4,4" />
+            <circle cx="25" cy="50" r="3" fill="#E07A5F" />
+            <circle cx="75" cy="50" r="3" fill="#E07A5F" />
+          </svg>
+        );
+      }
+      if (data.type === 'point') {
+        return (
+          <svg viewBox="0 0 100 100" className="w-auto h-28 sm:h-36 mb-2 drop-shadow-md shrink-0 bg-white rounded-md border border-gray-200">
+            <polygon points="30,20 90,20 70,80 10,80" fill="rgba(129, 178, 154, 0.2)" stroke="#3D405B" strokeWidth="2" strokeLinejoin="round" />
+            <circle cx="50" cy="50" r="3.5" fill="#ef4444" />
+          </svg>
+        );
+      }
       if (data.type === 'polygon') {
         const pts = [];
-        for (let i = 0; i < data.sides; i++) { const angle = (i * 2 * Math.PI) / data.sides - Math.PI / 2; pts.push(`${50 + 35 * Math.cos(angle)},${50 + 35 * Math.sin(angle)}`); }
-        return <svg viewBox="0 0 100 100" className="w-auto h-28 sm:h-36 mb-2 drop-shadow-md shrink-0 bg-white rounded-md border border-gray-200"><polygon points={pts.join(' ')} fill="rgba(242, 204, 143, 0.2)" stroke="#3D405B" strokeWidth="2" strokeLinejoin="round" /></svg>;
+        for (let i = 0; i < data.sides; i++) { 
+          const angle = (i * 2 * Math.PI) / data.sides - Math.PI / 2; 
+          pts.push(`${50 + 35 * Math.cos(angle)},${50 + 35 * Math.sin(angle)}`); 
+        }
+        return (
+          <svg viewBox="0 0 100 100" className="w-auto h-28 sm:h-36 mb-2 drop-shadow-md shrink-0 bg-white rounded-md border border-gray-200">
+            <polygon points={pts.join(' ')} fill="rgba(242, 204, 143, 0.2)" stroke="#3D405B" strokeWidth="2" strokeLinejoin="round" />
+          </svg>
+        );
       }
       return null;
     };
@@ -223,11 +263,19 @@
       if (!data) return null;
       let currentAngle = -Math.PI / 2;
       const paths = data.values.map((val, idx) => {
-        const angle = (val / 100) * 2 * Math.PI, nextAngle = currentAngle + angle;
+        const angle = (val / 100) * 2 * Math.PI;
+        const nextAngle = currentAngle + angle;
         const d = `M 50 50 L ${50+45*Math.cos(currentAngle)} ${50+45*Math.sin(currentAngle)} A 45 45 0 ${angle > Math.PI ? 1 : 0} 1 ${50+45*Math.cos(nextAngle)} ${50+45*Math.sin(nextAngle)} Z`;
         const labelAngle = currentAngle + angle / 2;
         currentAngle = nextAngle;
-        return <g key={idx}><path d={d} fill={["#E07A5F", "#F2CC8F", "#81B29A", "#3D405B", "#e2e8f0"][idx % 5]} stroke="#fff" strokeWidth="1" /><text x={50+27*Math.cos(labelAngle)} y={50+27*Math.sin(labelAngle)} fontSize="7" textAnchor="middle" dominantBaseline="central" fill={idx===3?"#fff":"#3D405B"} fontWeight="bold">{data.labels[idx]}</text></g>;
+        return (
+          <g key={idx}>
+            <path d={d} fill={["#E07A5F", "#F2CC8F", "#81B29A", "#3D405B", "#e2e8f0"][idx % 5]} stroke="#fff" strokeWidth="1" />
+            <text x={50+27*Math.cos(labelAngle)} y={50+27*Math.sin(labelAngle)} fontSize="7" textAnchor="middle" dominantBaseline="central" fill={idx===3?"#fff":"#3D405B"} fontWeight="bold">
+              {data.labels[idx]}
+            </text>
+          </g>
+        );
       });
       return <svg viewBox="0 0 100 100" className="w-auto h-32 sm:h-40 mb-2 drop-shadow-md shrink-0 bg-white rounded-md border border-gray-200">{paths}</svg>;
     };
@@ -236,27 +284,105 @@
       if (!data) return null;
       let currentX = 0;
       const rects = data.values.map((val, idx) => {
-        const width = (val / 100) * 300, x = currentX; currentX += width;
-        return <g key={idx}><rect x={x} y="30" width={width} height="40" fill={["#E07A5F", "#F2CC8F", "#81B29A", "#3D405B", "#e2e8f0"][idx % 5]} stroke="#fff" strokeWidth="1" />{width > 30 && <text x={x + width/2} y="50" fontSize="12" textAnchor="middle" dominantBaseline="central" fill={idx===3?"#fff":"#3D405B"} fontWeight="bold">{data.labels[idx]}</text></g>;
+        const width = (val / 100) * 300;
+        const x = currentX; 
+        currentX += width;
+        return (
+          <g key={idx}>
+            <rect x={x} y="30" width={width} height="40" fill={["#E07A5F", "#F2CC8F", "#81B29A", "#3D405B", "#e2e8f0"][idx % 5]} stroke="#fff" strokeWidth="1" />
+            {30 < width && (
+              <text x={x + width/2} y="50" fontSize="12" textAnchor="middle" dominantBaseline="central" fill={idx===3?"#fff":"#3D405B"} fontWeight="bold">
+                {data.labels[idx]}
+              </text>
+            )}
+          </g>
+        );
       });
-      return <svg viewBox="0 0 300 100" className="w-full max-w-[400px] h-auto max-h-[100px] sm:max-h-[120px] mb-2 drop-shadow-sm shrink-0 bg-white rounded-md border border-gray-200">{rects}<text x="0" y="85" fontSize="12" fill="#3D405B" fontWeight="bold">0%</text><text x="300" y="85" fontSize="12" textAnchor="end" fill="#3D405B" fontWeight="bold">100%</text>{[25, 50, 75].map(t => <g key={t}><line x1={(t/100)*300} y1="25" x2={(t/100)*300} y2="75" stroke="#3D405B" strokeWidth="1" strokeDasharray="2,2"/><text x={(t/100)*300} y="85" fontSize="12" textAnchor="middle" fill="#3D405B" fontWeight="bold">{t}</text></g>)}</svg>;
+      return (
+        <svg viewBox="0 0 300 100" className="w-full max-w-[400px] h-auto max-h-[100px] sm:max-h-[120px] mb-2 drop-shadow-sm shrink-0 bg-white rounded-md border border-gray-200">
+          {rects}
+          <text x="0" y="85" fontSize="12" fill="#3D405B" fontWeight="bold">0%</text>
+          <text x="300" y="85" fontSize="12" textAnchor="end" fill="#3D405B" fontWeight="bold">100%</text>
+          {[25, 50, 75].map(t => (
+            <g key={t}>
+              <line x1={(t/100)*300} y1="25" x2={(t/100)*300} y2="75" stroke="#3D405B" strokeWidth="1" strokeDasharray="2,2"/>
+              <text x={(t/100)*300} y="85" fontSize="12" textAnchor="middle" fill="#3D405B" fontWeight="bold">{t}</text>
+            </g>
+          ))}
+        </svg>
+      );
     };
 
     const BarGraph = ({ data }) => {
       if (!data) return null;
-      const yTicks = [], barW = (335 / data.labels.length) * 0.5;
-      if (data.subStep) for (let i = 0; i <= data.max; i += data.subStep) if (i % data.step !== 0) yTicks.push(<line key={`suby${i}`} x1="45" y1={35+230-(i/data.max)*230} x2="380" y2={35+230-(i/data.max)*230} stroke="#e2e8f0" strokeWidth="1" />);
-      for (let i=0; i<=data.max; i+=data.step) yTicks.push(<g key={`y${i}`}><line x1="45" y1={35+230-(i/data.max)*230} x2="380" y2={35+230-(i/data.max)*230} stroke="#94a3b8" strokeWidth="1.5" /><text x="37" y={35+230-(i/data.max)*230+4} fontSize="14" textAnchor="end" fill="#3D405B">{i}</text></g>);
-      const bars = data.labels.map((lbl, idx) => <g key={`bar${idx}`}><rect x={45+(335/data.labels.length)*idx+(335/data.labels.length-barW)/2} y={35+230-(data.values[idx]/data.max)*230} width={barW} height={(data.values[idx]/data.max)*230} fill="#81B29A" rx="2" /><text x={45+(335/data.labels.length)*idx+(335/data.labels.length)/2} y="283" fontSize="14" textAnchor="middle" fill="#3D405B" fontWeight="bold">{lbl}</text></g>);
-      return <svg viewBox="0 0 400 300" className="w-full max-w-[400px] h-auto max-h-[150px] sm:max-h-[200px] mb-2 drop-shadow-sm shrink-0 bg-white rounded-md border border-gray-200"><text x="200" y="20" fontSize="16" textAnchor="middle" fill="#3D405B" fontWeight="bold">{data.title}</text>{yTicks}{bars}<line x1="45" y1="35" x2="45" y2="265" stroke="#3D405B" strokeWidth="2"/><line x1="45" y1="265" x2="380" y2="265" stroke="#3D405B" strokeWidth="2"/></svg>;
+      const yTicks = [];
+      const barW = (335 / data.labels.length) * 0.5;
+      if (data.subStep) {
+        for (let i = 0; i <= data.max; i += data.subStep) {
+          if (i % data.step !== 0) {
+            yTicks.push(<line key={`suby${i}`} x1="45" y1={35+230-(i/data.max)*230} x2="380" y2={35+230-(i/data.max)*230} stroke="#e2e8f0" strokeWidth="1" />);
+          }
+        }
+      }
+      for (let i=0; i<=data.max; i+=data.step) {
+        yTicks.push(
+          <g key={`y${i}`}>
+            <line x1="45" y1={35+230-(i/data.max)*230} x2="380" y2={35+230-(i/data.max)*230} stroke="#94a3b8" strokeWidth="1.5" />
+            <text x="37" y={35+230-(i/data.max)*230+4} fontSize="14" textAnchor="end" fill="#3D405B">{i}</text>
+          </g>
+        );
+      }
+      const bars = data.labels.map((lbl, idx) => (
+        <g key={`bar${idx}`}>
+          <rect x={45+(335/data.labels.length)*idx+(335/data.labels.length-barW)/2} y={35+230-(data.values[idx]/data.max)*230} width={barW} height={(data.values[idx]/data.max)*230} fill="#81B29A" rx="2" />
+          <text x={45+(335/data.labels.length)*idx+(335/data.labels.length)/2} y="283" fontSize="14" textAnchor="middle" fill="#3D405B" fontWeight="bold">{lbl}</text>
+        </g>
+      ));
+      return (
+        <svg viewBox="0 0 400 300" className="w-full max-w-[400px] h-auto max-h-[150px] sm:max-h-[200px] mb-2 drop-shadow-sm shrink-0 bg-white rounded-md border border-gray-200">
+          <text x="200" y="20" fontSize="16" textAnchor="middle" fill="#3D405B" fontWeight="bold">{data.title}</text>
+          {yTicks}
+          {bars}
+          <line x1="45" y1="35" x2="45" y2="265" stroke="#3D405B" strokeWidth="2"/>
+          <line x1="45" y1="265" x2="380" y2="265" stroke="#3D405B" strokeWidth="2"/>
+        </svg>
+      );
     };
 
     const LineGraph = ({ data }) => {
       if (!data) return null;
-      const yTicks = [], pts = data.labels.map((lbl, idx) => ({ x: 45 + (335 / (data.labels.length - 1)) * idx, y: 35 + 230 - (data.values[idx] / data.max) * 230, lbl }));
-      if (data.subStep) for (let i = 0; i <= data.max; i += data.subStep) if (i % data.step !== 0) yTicks.push(<line key={`suby${i}`} x1="45" y1={35+230-(i/data.max)*230} x2="380" y2={35+230-(i/data.max)*230} stroke="#e2e8f0" strokeWidth="1" />);
-      for (let i=0; i<=data.max; i+=data.step) yTicks.push(<g key={`y${i}`}><line x1="45" y1={35+230-(i/data.max)*230} x2="380" y2={35+230-(i/data.max)*230} stroke="#94a3b8" strokeWidth="1.5" /><text x="37" y={35+230-(i/data.max)*230+4} fontSize="14" textAnchor="end" fill="#3D405B">{i}</text></g>);
-      return <svg viewBox="0 0 400 300" className="w-full max-w-[400px] h-auto max-h-[150px] sm:max-h-[200px] mb-2 drop-shadow-sm shrink-0 bg-white rounded-md border border-gray-200"><text x="200" y="20" fontSize="16" textAnchor="middle" fill="#3D405B" fontWeight="bold">{data.title}</text>{yTicks}<polyline points={pts.map(p=>`${p.x},${p.y}`).join(' ')} fill="none" stroke="#E07A5F" strokeWidth="2.5" />{pts.map((p, i) => <g key={i}><circle cx={p.x} cy={p.y} r="4" fill="#E07A5F" /><text x={p.x} y="283" fontSize="14" textAnchor="middle" fill="#3D405B" fontWeight="bold">{p.lbl}</text></g>)}<line x1="45" y1="35" x2="45" y2="265" stroke="#3D405B" strokeWidth="2"/><line x1="45" y1="265" x2="380" y2="265" stroke="#3D405B" strokeWidth="2"/></svg>;
+      const yTicks = [];
+      const pts = data.labels.map((lbl, idx) => ({ x: 45 + (335 / (data.labels.length - 1)) * idx, y: 35 + 230 - (data.values[idx] / data.max) * 230, lbl }));
+      if (data.subStep) {
+        for (let i = 0; i <= data.max; i += data.subStep) {
+          if (i % data.step !== 0) {
+            yTicks.push(<line key={`suby${i}`} x1="45" y1={35+230-(i/data.max)*230} x2="380" y2={35+230-(i/data.max)*230} stroke="#e2e8f0" strokeWidth="1" />);
+          }
+        }
+      }
+      for (let i=0; i<=data.max; i+=data.step) {
+        yTicks.push(
+          <g key={`y${i}`}>
+            <line x1="45" y1={35+230-(i/data.max)*230} x2="380" y2={35+230-(i/data.max)*230} stroke="#94a3b8" strokeWidth="1.5" />
+            <text x="37" y={35+230-(i/data.max)*230+4} fontSize="14" textAnchor="end" fill="#3D405B">{i}</text>
+          </g>
+        );
+      }
+      return (
+        <svg viewBox="0 0 400 300" className="w-full max-w-[400px] h-auto max-h-[150px] sm:max-h-[200px] mb-2 drop-shadow-sm shrink-0 bg-white rounded-md border border-gray-200">
+          <text x="200" y="20" fontSize="16" textAnchor="middle" fill="#3D405B" fontWeight="bold">{data.title}</text>
+          {yTicks}
+          <polyline points={pts.map(p=>`${p.x},${p.y}`).join(' ')} fill="none" stroke="#E07A5F" strokeWidth="2.5" />
+          {pts.map((p, i) => (
+            <g key={i}>
+              <circle cx={p.x} cy={p.y} r="4" fill="#E07A5F" />
+              <text x={p.x} y="283" fontSize="14" textAnchor="middle" fill="#3D405B" fontWeight="bold">{p.lbl}</text>
+            </g>
+          ))}
+          <line x1="45" y1="35" x2="45" y2="265" stroke="#3D405B" strokeWidth="2"/>
+          <line x1="45" y1="265" x2="380" y2="265" stroke="#3D405B" strokeWidth="2"/>
+        </svg>
+      );
     };
 
     const TriangleFigure = ({ data }) => {
@@ -269,7 +395,14 @@
       if (!data) return null;
       const rad = data.angle * Math.PI / 180, arcX = 90 + 30 * Math.cos(rad), arcY = 90 - 30 * Math.sin(rad);
       const arcPath = `M 120 90 A 30 30 0 ${data.angle > 180 ? 1 : 0} 0 ${arcX} ${arcY}`;
-      return <svg viewBox="0 0 180 120" className="w-auto max-w-[280px] h-24 sm:h-28 mb-2 drop-shadow-md shrink-0 bg-white rounded-md border border-gray-200"><line x1="90" y1="90" x2="160" y2="90" stroke="#3D405B" strokeWidth="3" strokeLinecap="round"/><line x1="90" y1="90" x2={90+70*Math.cos(rad)} y2={90-70*Math.sin(rad)} stroke="#3D405B" strokeWidth="3" strokeLinecap="round"/><path d={arcPath} fill="none" stroke="#E07A5F" strokeWidth="2.5"/><text x="125" y="75" fontSize="14" fill="#E07A5F" fontWeight="bold">あ</text></svg>;
+      return (
+        <svg viewBox="0 0 180 120" className="w-auto max-w-[280px] h-24 sm:h-28 mb-2 drop-shadow-md shrink-0 bg-white rounded-md border border-gray-200">
+          <line x1="90" y1="90" x2="160" y2="90" stroke="#3D405B" strokeWidth="3" strokeLinecap="round"/>
+          <line x1="90" y1="90" x2={90+70*Math.cos(rad)} y2={90-70*Math.sin(rad)} stroke="#3D405B" strokeWidth="3" strokeLinecap="round"/>
+          <path d={arcPath} fill="none" stroke="#E07A5F" strokeWidth="2.5"/>
+          <text x="125" y="75" fontSize="14" fill="#E07A5F" fontWeight="bold">あ</text>
+        </svg>
+      );
     };
 
     const QuadFigure = ({ data }) => {
@@ -281,19 +414,60 @@
     const AreaFigure = ({ data }) => {
       if (!data) return null;
       const maxDim = Math.max(data.w, data.h), dw = (data.w/maxDim)*60, dh = (data.h/maxDim)*60;
-      return <svg viewBox="0 0 100 100" className="w-auto h-24 sm:h-32 mb-2 drop-shadow-md shrink-0 bg-white rounded-md border border-gray-200 overflow-visible"><rect x={50-dw/2} y={50-dh/2} width={dw} height={dh} fill="rgba(224, 122, 95, 0.2)" stroke="#E07A5F" strokeWidth="2.5" /><text x="50" y={50-dh/2-6} fontSize="10" textAnchor="middle" fill="#3D405B" fontWeight="bold">{data.w}cm</text><text x={50+dw/2+6} y="50" fontSize="10" dominantBaseline="central" fill="#3D405B" fontWeight="bold">{data.h}cm</text></svg>;
+      return (
+        <svg viewBox="0 0 100 100" className="w-auto h-24 sm:h-32 mb-2 drop-shadow-md shrink-0 bg-white rounded-md border border-gray-200 overflow-visible">
+          <rect x={50-dw/2} y={50-dh/2} width={dw} height={dh} fill="rgba(224, 122, 95, 0.2)" stroke="#E07A5F" strokeWidth="2.5" />
+          <text x="50" y={50-dh/2-6} fontSize="10" textAnchor="middle" fill="#3D405B" fontWeight="bold">{data.w}cm</text>
+          <text x={50+dw/2+6} y="50" fontSize="10" dominantBaseline="central" fill="#3D405B" fontWeight="bold">{data.h}cm</text>
+        </svg>
+      );
     };
 
     const SolidFigure = ({ data }) => {
       if (!data) return null;
-      return <svg viewBox="0 0 100 100" className="w-auto h-24 sm:h-32 mb-2 drop-shadow-md shrink-0 bg-white rounded-md border border-gray-200">{data.type==='cube'?(<g><polygon points="40,30 70,30 70,60 40,60" fill="#f87171" stroke="#3D405B" strokeWidth="2" /><polygon points="40,30 55,15 85,15 70,30" fill="#fca5a5" stroke="#3D405B" strokeWidth="2" /><polygon points="70,30 85,15 85,45 70,60" fill="#ef4444" stroke="#3D405B" strokeWidth="2" /></g>):(<g><polygon points="20,40 70,40 70,80 20,80" fill="#4ea583" stroke="#3D405B" strokeWidth="2" /><polygon points="20,40 40,20 90,20 70,40" fill="#81B29A" stroke="#3D405B" strokeWidth="2" /><polygon points="70,40 90,20 90,60 70,80" fill="#388c6b" stroke="#3D405B" strokeWidth="2" /></g>)}</svg>;
+      return (
+        <svg viewBox="0 0 100 100" className="w-auto h-24 sm:h-32 mb-2 drop-shadow-md shrink-0 bg-white rounded-md border border-gray-200">
+          {data.type==='cube'?(
+            <g>
+              <polygon points="40,30 70,30 70,60 40,60" fill="#f87171" stroke="#3D405B" strokeWidth="2" />
+              <polygon points="40,30 55,15 85,15 70,30" fill="#fca5a5" stroke="#3D405B" strokeWidth="2" />
+              <polygon points="70,30 85,15 85,45 70,60" fill="#ef4444" stroke="#3D405B" strokeWidth="2" />
+            </g>
+          ):(
+            <g>
+              <polygon points="20,40 70,40 70,80 20,80" fill="#4ea583" stroke="#3D405B" strokeWidth="2" />
+              <polygon points="20,40 40,20 90,20 70,40" fill="#81B29A" stroke="#3D405B" strokeWidth="2" />
+              <polygon points="70,40 90,20 90,60 70,80" fill="#388c6b" stroke="#3D405B" strokeWidth="2" />
+            </g>
+          )}
+        </svg>
+      );
     };
 
     const ClockFace = ({ timeStr }) => {
       if (!timeStr) return null;
       const [h, m] = timeStr.split(':').map(Number);
-      const ha = (h % 12) * 30 + (m / 60) * 30, ma = m * 6;
-      return <svg viewBox="0 0 100 100" className="w-24 h-24 sm:w-32 sm:h-32 mb-2 drop-shadow-md shrink-0"><circle cx="50" cy="50" r="46" fill="white" stroke="#3D405B" strokeWidth="4"/>{[...Array(60)].map((_, i) => i%5!==0&&<line key={i} x1="50" y1="6" x2="50" y2="8" transform={`rotate(${i * 6} 50 50)`} stroke="#81B29A" strokeWidth="1.5" />)}{[...Array(12)].map((_, i) => <line key={i} x1="50" y1="5" x2="50" y2="10" transform={`rotate(${i * 30} 50 50)`} stroke="#3D405B" strokeWidth="2.5" />)}{[...Array(12)].map((_, i) => <text key={i} x={50+31*Math.sin((i+1)*30*Math.PI/180)} y={51-31*Math.cos((i+1)*30*Math.PI/180)} textAnchor="middle" dominantBaseline="central" fontSize="12" fill="#3D405B" fontWeight="bold">{i+1}</text>)}<line x1="50" y1="50" x2="50" y2="26" transform={`rotate(${ha} 50 50)`} stroke="#E07A5F" strokeWidth="4" strokeLinecap="round" /><line x1="50" y1="50" x2="50" y2="12" transform={`rotate(${ma} 50 50)`} stroke="#81B29A" strokeWidth="3" strokeLinecap="round" /><circle cx="50" cy="50" r="3.5" fill="#3D405B" /></svg>;
+      const ha = (h % 12) * 30 + (m / 60) * 30;
+      const ma = m * 6;
+      return (
+        <svg viewBox="0 0 100 100" className="w-24 h-24 sm:w-32 sm:h-32 mb-2 drop-shadow-md shrink-0">
+          <circle cx="50" cy="50" r="46" fill="white" stroke="#3D405B" strokeWidth="4"/>
+          {[...Array(60)].map((_, i) => i%5!==0 && (
+            <line key={`min${i}`} x1="50" y1="6" x2="50" y2="8" transform={`rotate(${i * 6} 50 50)`} stroke="#81B29A" strokeWidth="1.5" />
+          ))}
+          {[...Array(12)].map((_, i) => (
+            <line key={`hour${i}`} x1="50" y1="5" x2="50" y2="10" transform={`rotate(${i * 30} 50 50)`} stroke="#3D405B" strokeWidth="2.5" />
+          ))}
+          {[...Array(12)].map((_, i) => (
+            <text key={`text${i}`} x={50+31*Math.sin((i+1)*30*Math.PI/180)} y={51-31*Math.cos((i+1)*30*Math.PI/180)} textAnchor="middle" dominantBaseline="central" fontSize="12" fill="#3D405B" fontWeight="bold">
+              {i+1}
+            </text>
+          ))}
+          <line x1="50" y1="50" x2="50" y2="26" transform={`rotate(${ha} 50 50)`} stroke="#E07A5F" strokeWidth="4" strokeLinecap="round" />
+          <line x1="50" y1="50" x2="50" y2="12" transform={`rotate(${ma} 50 50)`} stroke="#81B29A" strokeWidth="3" strokeLinecap="round" />
+          <circle cx="50" cy="50" r="3.5" fill="#3D405B" />
+        </svg>
+      );
     };
 
     const GradeBox = ({ grade, onClick }) => {
@@ -471,7 +645,7 @@
           setErrorMessage(''); 
           if (!isReviewMode) {
             setScore(s => s + 1);
-            addScoreToLocal(); // ★全体スコア加算
+            addScoreToLocal(); 
           }
         } else { 
           setFeedback('❌'); 
