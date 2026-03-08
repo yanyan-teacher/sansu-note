@@ -113,50 +113,27 @@
   const pattern = rand(1, 5);
 
   if (pattern === 1) {
-    // パターン1: cm から mm への変換（元のコード）
     const cm = rand(1, 9);
-    return { 
-      q: `${cm}cm は 何mm？`, 
-      a: String(cm * 10), 
-      isHissan: false 
-    };
-
+    return { q: `${cm}cm は 何mm？`, a: String(cm * 10), isHissan: false };
   } else if (pattern === 2) {
-    // パターン2: cm と mm から mm への変換（元のコード）
     const cm = rand(1, 9);
     const mm = rand(1, 9);
-    return { 
-      q: `${cm}cm ${mm}mm は\n何mm？`, 
-      a: String(cm * 10 + mm), 
-      isHissan: false 
-    };
-
+    return { q: `${cm}cm ${mm}mm は\n何mm？`, a: String(cm * 10 + mm), isHissan: false };
   } else if (pattern === 3) {
-    // パターン3: mm から cm と mm への変換（逆変換）
     const cm = rand(1, 9);
     const mm = rand(1, 9);
     const total = cm * 10 + mm;
-    return { 
-      q: `${total}mm は、\n${cm}cm と あと 何mm？`, 
-      a: String(mm), 
-      isHissan: false 
-    };
-
+    return { q: `${total}mm は、\n${cm}cm と あと 何mm？`, a: String(mm), isHissan: false };
   } else if (pattern === 4) {
-    // パターン4: SVGで定規を用いた長さ調べ
-    // 表示システム側で isRuler が true のとき、rulerDataの長さの線を定規の上に描画する想定です
-    const cm = rand(2, 8);
+    // SVG定規の代わりに、目盛りの読み取りを文章で想像させます
+    const cm = rand(3, 12);
     const mm = rand(1, 9);
     return {
-      q: "ものさしで はかった 長さは\n何mm ですか？",
+      q: `ものさしで えんぴつを はかったら、\n「${cm}cm」の めもりから、さらに\n「${mm}mm」すすんだ ところでした。\n\n長さは ぜんぶで 何mm ですか？`,
       a: String(cm * 10 + mm),
-      isRuler: true,
-      rulerData: { cm: cm, mm: mm },
       isHissan: false
     };
-
   } else {
-    // パターン5: 長さのたし算（文章題）
     const cm = rand(2, 6);
     const mm1 = rand(1, 5);
     const mm2 = rand(1, 4);
@@ -172,48 +149,26 @@
   const pattern = rand(1, 5);
 
   if (pattern === 1) {
-    // パターン1: L から dL への変換（元のコード）
     const l = rand(1, 9);
-    return { 
-      q: `${l}L は 何dL？`, 
-      a: String(l * 10), 
-      isHissan: false 
-    };
-
+    return { q: `${l}L は 何dL？`, a: String(l * 10), isHissan: false };
   } else if (pattern === 2) {
-    // パターン2: L から mL への変換（元のコード）
     const l = rand(1, 9);
-    return { 
-      q: `${l}L は 何mL？`, 
-      a: String(l * 1000), 
-      isHissan: false 
-    };
-
+    return { q: `${l}L は 何mL？`, a: String(l * 1000), isHissan: false };
   } else if (pattern === 3) {
-    // パターン3: dL から mL への変換（元のコード）
     const dl = rand(1, 9);
-    return { 
-      q: `${dl}dL は 何mL？`, 
-      a: String(dl * 100), 
-      isHissan: false 
-    };
-
+    return { q: `${dl}dL は 何mL？`, a: String(dl * 100), isHissan: false };
   } else if (pattern === 4) {
-    // パターン4: SVG図を見て水のかさを答える
-    // 表示システム側で `isVolume: true` のときに、LのマスとdLのマスを描画する想定です
+    // SVGの代わりに絵文字で視覚的にかさを表します
     const l = rand(1, 3);
     const dl = rand(1, 9);
+    const l_pict = "🪣".repeat(l);  // 1Lをバケツで表現
+    const dl_pict = "🥛".repeat(dl); // 1dLをコップで表現
     return {
-      q: "水のかさは ぜんぶで\n何dL ですか？",
+      q: `【1L=🪣　1dL=🥛】\n\n${l_pict} ${dl_pict}\n\n水のかさは ぜんぶで 何dLですか？`,
       a: String(l * 10 + dl),
-      isVolume: true,
-      volumeData: { L: l, dL: dl },
       isHissan: false
     };
-
   } else {
-    // パターン5: かさのたし算（文章題）
-    // 単位を揃えて計算する練習です
     const l = rand(1, 3);
     const dl1 = rand(1, 5);
     const dl2 = rand(1, 4);
@@ -302,49 +257,24 @@
   const pattern = rand(1, 5);
 
   if (pattern === 1) {
-    // パターン1: kg と g から g への変換（元のコード）
     const kg = rand(1, 5);
     const g = rand(10, 990);
-    return { 
-      q: `${kg}kg ${g}g は\n何g？`, 
-      a: String(kg * 1000 + g), 
-      isHissan: true 
-    };
-
+    return { q: `${kg}kg ${g}g は\n何g？`, a: String(kg * 1000 + g), isHissan: true };
   } else if (pattern === 2) {
-    // パターン2: kg から g への変換（元のコード）
     const kg = rand(1, 9);
-    return { 
-      q: `${kg}kg は 何g？`, 
-      a: String(kg * 1000), 
-      isHissan: false 
-    };
-
+    return { q: `${kg}kg は 何g？`, a: String(kg * 1000), isHissan: false };
   } else if (pattern === 3) {
-    // パターン3: t から kg への変換（元のコード）
     const t = rand(1, 5);
-    return { 
-      q: `${t}t は 何kg？`, 
-      a: String(t * 1000), 
-      isHissan: false 
-    };
-
+    return { q: `${t}t は 何kg？`, a: String(t * 1000), isHissan: false };
   } else if (pattern === 4) {
-    // パターン4: はかりの読み取り（SVG描画用）
-    // 1kgはかりなどを想定し、グラム単位で目盛りを読む問題
-    const maxKg = 1;
-    const g = rand(1, 9) * 100 + rand(1, 9) * 10; // 110g 〜 990g
+    // はかりの読み取りを文章で表現
+    const g = rand(1, 9) * 100 + rand(1, 9) * 10;
     return {
-      q: "はかりの 針が さしている\n重さは 何g ですか？",
+      q: `1kgまではかれる はかりに\nにもつを のせたら、はりの メモリが\n「${g}」の 数字を さしました。\n\n重さは 何g ですか？`,
       a: String(g),
-      isScale: true,
-      scaleData: { maxKg: maxKg, g: g },
       isHissan: false
     };
-
   } else {
-    // パターン5: 重さのたし算（文章題）
-    // 単位を揃えて計算する練習です
     const kg = rand(1, 3);
     const g1 = rand(100, 500);
     const g2 = rand(100, 400);
