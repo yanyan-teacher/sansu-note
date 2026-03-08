@@ -139,7 +139,75 @@
         "□を使った式": () => generateUnique(() => { const a = rand(1, 50); const b = rand(a+1, 99); if (rand(1, 2) === 1) { return { q: `□ + ${a} = ${b}\n□は いくつ？`, a: String(b-a), isHissan: true }; } else { return { q: `${b} - □ = ${a}\n□は いくつ？`, a: String(b-a), isHissan: true }; } }),
         "かけ算の筆算(2)": () => generateUnique(() => { const a = rand(11, 99); const b = rand(11, 99); return { q: `${a} × ${b} =`, a: String(a*b), isHissan: true }; }),
         "倍の計算": () => generateUnique(() => { const a = rand(2, 9); const b = rand(2, 9); if (rand(1, 2) === 1) { return { q: `${a} の ${b}倍 は\nいくつ？`, a: String(a*b), isHissan: false }; } else { return { q: `${a*b} は ${a} の\n何倍？`, a: String(b), isHissan: false }; } }),
-        "三角形と角": () => generateUnique(() => { const type = rand(0, 1) === 0 ? 'isosceles' : 'equilateral'; return { q: "この 三角形の なまえ は？\n1: にとうへん三角形\n2: 正三角形", a: type === 'isosceles' ? "1" : "2", isTriangle: true, triangleData: { type: type }, isHissan: false }; })
+        "三角形と角": () => generateUnique(() => {
+  const pattern = rand(1, 5);
+
+  if (pattern === 1) {
+    // パターン1: 図形を見て答える（元のコードの拡張）
+    const type = rand(0, 1) === 0 ? 'isosceles' : 'equilateral';
+    return {
+      q: "この 三角形の なまえ は？\n1: にとうへん三角形\n2: 正三角形",
+      a: type === 'isosceles' ? "1" : "2",
+      isTriangle: true,
+      triangleData: { type: type },
+      isHissan: false
+    };
+
+  } else if (pattern === 2) {
+    // パターン2: 辺の長さから図形を判別する
+    const type = rand(0, 1);
+    const sideA = rand(4, 8); // 4cm〜8cm
+    if (type === 0) {
+      // 二等辺三角形（他の1辺の長さを変える）
+      const sideB = sideA + rand(1, 3);
+      return {
+        q: `辺の 長さが ${sideA}cm、${sideA}cm、${sideB}cm の\n三角形の なまえ は？\n1: にとうへん三角形\n2: 正三角形`,
+        a: "1",
+        isHissan: false
+      };
+    } else {
+      // 正三角形
+      return {
+        q: `辺の 長さが ${sideA}cm、${sideA}cm、${sideA}cm の\n三角形の なまえ は？\n1: にとうへん三角形\n2: 正三角形`,
+        a: "2",
+        isHissan: false
+      };
+    }
+
+  } else if (pattern === 3) {
+    // パターン3: 正三角形の角の性質
+    return {
+      q: "正三角形の 3つの 角の 大きさは\nどうなって いますか？\n1: みんな おなじ\n2: 2つだけ おなじ",
+      a: "1",
+      isHissan: false
+    };
+
+  } else if (pattern === 4) {
+    // パターン4: 二等辺三角形の角の性質
+    return {
+      q: "にとうへん三角形の 角の 大きさは\nどうなって いますか？\n1: みんな おなじ\n2: 2つだけ おなじ",
+      a: "2",
+      isHissan: false
+    };
+
+  } else {
+    // パターン5: 言葉の定義から答える
+    const type = rand(0, 1);
+    if (type === 0) {
+      return {
+        q: "3つの 辺の 長さが みんな おなじ\n三角形を 何と いいますか？\n1: にとうへん三角形\n2: 正三角形",
+        a: "2",
+        isHissan: false
+      };
+    } else {
+      return {
+        q: "2つの 辺の 長さが おなじ\n三角形を 何と いいますか？\n1: にとうへん三角形\n2: 正三角形",
+        a: "1",
+        isHissan: false
+      };
+    }
+  }
+})
       },
       4: {
         "大きい数のしくみ": () => generateUnique(() => { const type = rand(1, 3); if (type === 1) { const a = rand(2, 9); return { q: `${a}億 の 10倍 は\n何億？`, a: String(a * 10), isHissan: false }; } else if (type === 2) { const a = rand(2, 9); return { q: `${a}兆 を 10で わった数は\n何千億？`, a: String(a * 10), isHissan: false }; } else { const a = rand(1, 9); const b = rand(1, 9); return { q: `一億を ${a}こ、一万を ${b}こ\nあつめた 数は？`, a: `${a}000${b}0000`, isHissan: false }; } }),
@@ -221,8 +289,60 @@
   }
 }),
         "四角形と三角形の面積": () => generateUnique(() => { const type = rand(1, 3); if (type === 1) { const base = rand(2, 10); const h = rand(2, 10); return { q: `底辺が ${base}cm、高さが ${h}cm の\n三角形の 面積は 何cm²？`, a: String((base * h) / 2), isHissan: true }; } else if (type === 2) { const base = rand(2, 10); const h = rand(2, 10); return { q: `底辺が ${base}cm、高さが ${h}cm の\n平行四辺形の 面積は 何cm²？`, a: String(base * h), isHissan: true }; } else { const a = rand(2, 8); const b = rand(2, 8); const h = rand(2, 10); return { q: `上底が ${a}cm、下底が ${b}cm、\n高さが ${h}cm の\n台形の 面積は 何cm²？`, a: String((a + b) * h / 2), isHissan: true }; } }),
-        "割合": () => generateUnique(() => { const type = rand(1, 3); if (type === 1) { const base = rand(2, 10) * 10; const comp = base * rand(1, 9) / 10; return { q: `${base}人 を もとにしたときの\n${comp}人 の 割合は いくつですか？\n(小数でこたえよう)`, a: String(comp/base), isHissan: true }; } else if (type === 2) { const base = rand(2, 10) * 10; const comp = base * rand(1, 9) / 10; return { q: `${base}人 を 100% としたとき、\n${comp}人 は 何% ですか？`, a: String((comp/base)*100), isHissan: true }; } else { const base = rand(1, 5) * 1000; const per = rand(1, 9) * 10; return { q: `${base}円 の ${per}% は\n何円 ですか？`, a: String(base * (per/100)), isHissan: true }; } }),
-        "帯グラフと円グラフ": () => generateUnique(() => { const vals = [rand(30, 50), rand(20, 30), rand(10, 20)]; const total = vals[0] + vals[1] + vals[2]; const remainder = 100 - total; vals.push(remainder); const labels = ["犬", "猫", "鳥", "その他"]; const targetIdx = rand(0, 3); const type = rand(0, 1) === 0 ? "帯グラフ" : "円グラフ"; const isPie = type === "円グラフ"; return { q: `${type}を 見て こたえよう。\n「${labels[targetIdx]}」の 割合は 何% ですか？`, a: String(vals[targetIdx]), isHissan: false, isPieGraph: isPie, isBandGraph: !isPie, graphData: { labels, values: vals } }; }),
+        "割合": () => generateUnique(() => {
+  const type = rand(1, 5);
+  
+  if (type === 1) {
+    // パターン1: 割合（小数）を求める
+    const base = rand(2, 10) * 10;
+    const comp = base * rand(1, 9) / 10;
+    return { 
+      q: `${base}人 を もとにしたときの\n${comp}人 の 割合は いくつですか？\n(小数でこたえよう)`, 
+      a: String(comp / base), 
+      isHissan: true 
+    };
+    
+  } else if (type === 2) {
+    // パターン2: 百分率（%）を求める（具体的な場面）
+    const base = rand(2, 10) * 10;
+    const comp = base * rand(1, 9) / 10;
+    return { 
+      q: `定員 ${base}人 の バスに\n${comp}人 乗っています。\n乗っている人の 割合は 何% ですか？`, 
+      a: String((comp / base) * 100), 
+      isHissan: true 
+    };
+    
+  } else if (type === 3) {
+    // パターン3: 比較量を求める（百分率から）
+    const base = rand(1, 5) * 1000;
+    const per = rand(1, 9) * 10;
+    return { 
+      q: `${base}円 の ${per}% は\n何円 ですか？`, 
+      a: String(base * (per / 100)), 
+      isHissan: true 
+    };
+    
+  } else if (type === 4) {
+    // パターン4: 割引の問題（百分率の適用）
+    const base = rand(2, 8) * 500;
+    const discount = rand(1, 4) * 10; // 10%, 20%, 30%, 40%
+    return { 
+      q: `${base}円 の 品物を\n${discount}% 引きで 買いました。\n代金は 何円 ですか？`, 
+      a: String(base * (1 - discount / 100)), 
+      isHissan: true 
+    };
+    
+  } else {
+    // パターン5: 歩合（割）を使った問題
+    const base = rand(1, 5) * 1000;
+    const wari = rand(1, 9);
+    return { 
+      q: `${base}円 の ${wari}割 は\n何円 ですか？`, 
+      a: String(base * (wari / 10)), 
+      isHissan: true 
+    };
+  }
+}),
         "正多角形と円周の長さ": () => generateUnique(() => { if (rand(1, 2) === 1) { const d = rand(2, 10); return { q: `直径が ${d}cm の 円の\n円周の 長さは 何cm ですか？\n(円周率は 3.14)`, a: String(Math.round(d * 3.14 * 100)/100), isHissan: true }; } else { const r = rand(2, 5); return { q: `半径が ${r}cm の 円の\n円周の 長さは 何cm ですか？\n(円周率は 3.14)`, a: String(Math.round(r * 2 * 3.14 * 100)/100), isHissan: true }; } }),
         "角柱と円柱": () => generateUnique(() => { const type = rand(1, 3); if (type === 1) { const n = rand(3, 6); const shapes = ["", "", "", "三角形", "四角形", "五角形", "六角形"]; const names = ["", "", "", "三角柱", "四角柱", "五角柱", "六角柱"]; return { q: `底面が ${shapes[n]} の\n角柱の なまえは？\n1: ${names[n]}\n2: 円柱`, a: "1", isHissan: false }; } else if (type === 2) { const n = rand(3, 5); return { q: `${n === 3 ? "三角柱" : n === 4 ? "四角柱" : "五角柱"}の 側面の 数は\nいくつ ですか？`, a: String(n), isHissan: false }; } else { return { q: `底面が 円 の\n柱の なまえは？\n1: 円柱\n2: 球`, a: "1", isHissan: false }; } })
       },
